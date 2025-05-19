@@ -3,6 +3,7 @@ package com.telegram.core.controller;
 import com.telegram.core.service.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,16 @@ public class MessageController {
     @GetMapping("/getMessageReadDate")
     public ResponseEntity<?> getMessageReadDate(@RequestParam Long chatId, @RequestParam Long messageId) {
         return ResponseEntity.ok(messageService.getMessageReadDate(chatId, messageId));
+    }
+
+    @PostMapping("/sendMessage")
+    public ResponseEntity<?> sendMessage(@RequestParam Long chatId, @RequestParam String message) {
+        return ResponseEntity.ok(messageService.sendMessage(chatId,message));
+    }
+
+    @PostMapping("/sendMessageByPhone")
+    public ResponseEntity<?> sendMessage(@RequestParam String phoneNumber, @RequestParam String message) {
+        return ResponseEntity.ok(messageService.sendMessage(phoneNumber,message));
     }
 
 }

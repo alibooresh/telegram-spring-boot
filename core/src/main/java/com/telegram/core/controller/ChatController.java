@@ -26,8 +26,4 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getChat(chatId));
     }
 
-    @GetMapping("/sendMessage")
-    public ResponseEntity<?> sendMessage(@RequestParam Long chatId, @RequestParam String message) {
-        return ResponseEntity.ok(chatService.sendMessage(chatId,message));
-    }
 }

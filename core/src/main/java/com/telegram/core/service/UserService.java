@@ -11,7 +11,7 @@ public class UserService {
     private final TdlibClient tdlibClient;
     private final SessionManager sessionManager;
     static TdApi.Object result;
-    private static boolean isFound=false;
+    private static boolean isFound = false;
 
 
     public UserService(TdlibClient tdlibClient, SessionManager sessionManager) {
@@ -46,12 +46,12 @@ public class UserService {
                         public void onResult(TdApi.Object object) {
                             TdApi.User user = (TdApi.User) object;
                             if (user.phoneNumber.equals(number)) {
-                                result=user;
-                                isFound=true;
+                                result = user;
+                                isFound = true;
                             }
                         }
                     });
-                    if(isFound) {
+                    if (isFound) {
                         break;
                     }
                 }
@@ -157,6 +157,93 @@ public class UserService {
         TdApi.User user = null;
         Client client = tdlibClient.getClient();
         client.send(new TdApi.GetDatabaseStatistics(),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return result;
+    }
+
+    public TdApi.User searchUserByPhoneNumber(String phoneNumber) {
+        TdApi.User user = null;
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SearchUserByPhoneNumber(phoneNumber, false),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return (TdApi.User) result;
+    }
+
+    public TdApi.Object setAccountTtl(int days) {
+        TdApi.AccountTtl accountTtl = new TdApi.AccountTtl(days);
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SetAccountTtl(accountTtl),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return result;
+    }
+
+    public TdApi.Object setName(String firstName, String lastName) {
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SetName(firstName, lastName),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return result;
+    }
+
+    public TdApi.Object setBio(String bio) {
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SetBio(bio),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return result;
+    }
+
+    public TdApi.Object setBirthdate(TdApi.Birthdate birthdate) {
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SetBirthdate(birthdate),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return result;
+    }
+
+    public TdApi.Object setUsername(String username) {
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SetUsername(username),
+                new Client.ResultHandler() {
+                    @Override
+                    public void onResult(TdApi.Object object) {
+                        result = object;
+                    }
+                });
+        return result;
+    }
+
+    public TdApi.Object setPassword(TdApi.SetPassword setPassword) {
+        Client client = tdlibClient.getClient();
+        client.send(new TdApi.SetPassword(setPassword.oldPassword, setPassword.newPassword, setPassword.newHint,
+                        setPassword.setRecoveryEmailAddress, setPassword.newRecoveryEmailAddress),
                 new Client.ResultHandler() {
                     @Override
                     public void onResult(TdApi.Object object) {
